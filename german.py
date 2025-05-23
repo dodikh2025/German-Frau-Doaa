@@ -209,15 +209,3 @@ st.markdown(
     '<div style="text-align: center; color: #666;">Powered by Dify AI • Created with ❤️ for German learners</div>',
     unsafe_allow_html=True
 )
-
-# Requirements comment for deployment
-"""
-To run this application, you'll need to install the required packages:
-
-pip install streamlit requests
-
-Then run the app with:
-streamlit run app.py
-
-Make sure to replace the APP_TOKEN with your actual Dify API token if it's different.
-"""
