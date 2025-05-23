@@ -148,13 +148,13 @@ with col2:
             if message["role"] == "user":
                 st.markdown(f'<div class="user-message">You: {message["content"]}</div>', unsafe_allow_html=True)
             else:
-                st.markdown(f'<div class="bot-message">Frau Doaa: {message["content"]}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="bot-message"> {message["content"]}</div>', unsafe_allow_html=True)
     
     # Input form
     with st.form(key="chat_form", clear_on_submit=True):
         user_input = st.text_area(
             "Ask Frau Doaa about German learning:",
-            placeholder="Type your question in English or German...",
+            placeholder="Type your question in English or German or Arabic...",
             height=100,
             key="user_input"
         )
