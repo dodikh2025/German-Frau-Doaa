@@ -159,29 +159,29 @@ with col2:
             key="user_input"
         )
         
-        col_submit, col_example = st.columns([1, 2])
+        col_submit, col_attach = st.columns([3, 1])
         
         with col_submit:
             submit_button = st.form_submit_button("Send 📤", use_container_width=True)
         
-        with col_example:
-            example_questions = [
-                "How do I conjugate 'sein'?",
-                "What's the difference between 'der', 'die', 'das'?",
-                "Translate: 'I would like to learn German'",
-                "Help me practice introducing myself in German"
-            ]
-            
-            selected_example = st.selectbox(
-                "Or choose an example question:",
-                [""] + example_questions,
-                key="example_select"
+        with col_attach:
+            uploaded_file = st.file_uploader(
+                "",
+                type=['txt', 'pdf', 'docx', 'jpg', 'jpeg', 'png'],
+                key="file_upload",
+                label_visibility="collapsed"
             )
     
     # Handle form submission
     if submit_button and user_input.strip():
         # Add user message to chat
-        st.session_state.messages.append({"role": "user", "content": user_input})
+        message_content = user_input
+        
+        # Handle file upload if present
+        if uploaded_file is not None:
+            message_content += f" [Attached file: {uploaded_file.name}]"
+        
+        st.session_state.messages.append({"role": "user", "content": message_content})
         
         # Show loading spinner
         with st.spinner("Frau Doaa is thinking... 🤔"):
@@ -201,23 +201,6 @@ with col2:
                 st.rerun()
             else:
                 # Show error message
-                st.markdown(f'<div class="error-message">Error: {response["error"]}</div>', unsafe_allow_html=True)
-    
-    # Handle example question selection
-    if selected_example:
-        st.session_state.messages.append({"role": "user", "content": selected_example})
-        
-        with st.spinner("Frau Doaa is thinking... 🤔"):
-            response = call_dify_api(selected_example, st.session_state.conversation_id)
-            
-            if response["success"]:
-                if response.get("conversation_id"):
-                    st.session_state.conversation_id = response["conversation_id"]
-                
-                bot_response = response["answer"]
-                st.session_state.messages.append({"role": "bot", "content": bot_response})
-                st.rerun()
-            else:
                 st.markdown(f'<div class="error-message">Error: {response["error"]}</div>', unsafe_allow_html=True)
 
 # Footer
